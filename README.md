@@ -21,3 +21,13 @@ Order items from the warehouse.
 Log actions from users.
 Reporting.
 You can get creative when defining intended/expected features, you can always come back to the README.md to define two sections, one with planned features and the other one with features already implemented.
+
+A user system with roles and permissions for listing and placing orders.
+Maintain the stock of a warehouse.
+Order items from the warehouse.
+Log actions from users.
+Reporting.
+
+
+You can get creative when defining intended/expected features, you can always come back to the README.md to define two sections, one with planned features and the other one with features already implemented.
+
