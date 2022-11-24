@@ -1,42 +1,151 @@
-# Individual_Project_DCI_Pythonkurs
-Individual Project. road map that will guide you on your way to completing your first web application.
+# Collections
 
+## Topics covered
 
-Main Goal
-By the end of this course you will have created a fully functional prototype web application for a Warehouse Management System.
-A Warehouse Management System is a software application designed to support and optimize warehouse functionality and distribution center management.
-Wikipedia
-You will create a website that helps keep track of where the stock of the company is and will let the users of the system move the stock around by placing orders. It will keep track of every item, their quantity and location, who ordered which item and so on.
-Learning Achievements
-You will learn how to create a custom dynamic web application that stores the information in a database, has a user system and let's registered users interact with the contents of the database with web forms, making persistent changes on the website content.
-Methodology
-From the beginning of the course, and all along the course, you will be given small incremental goals that you can reach with the knowledge acquired at every step of the learning experience, ending up with a complete road map that will guide you on your way to completing your first web application.
+Lists, dictionaries and other collection types. Working with dates and texts.
 
+## Goal achieved
 
-Include a list of the expected app features (using a list), a link to the author profile on GitHub or the home page of the Python Course.
-For now, some of the features you may include are:
-A user system with roles and permissions for listing and placing orders.
-Maintain the stock of a warehouse.
-Order items from the warehouse.
-Log actions from users.
-Reporting.
-You can get creative when defining intended/expected features, you can always come back to the README.md to define two sections, one with planned features and the other one with features already implemented.
+By the end of the exercise you will have upgraded your query command line tool to use a more complex data set and perform additional operations.
 
-A user system with roles and permissions for listing and placing orders.
-Maintain the stock of a warehouse.
-Order items from the warehouse.
-Log actions from users.
-Reporting.
+More specifically, you will add the following features:
 
+- Add a total counter when listing all items.
+- Change the search to case insensitive.
+- The search will list all items matching, instead of indicating the number. For each item, it will also show the number of days it has been in stock.
+- Add a new menu option to browse the items by category.
 
-You can get creative when defining intended/expected features, you can always come back to the README.md to define two sections, one with planned features and the other one with features already implemented.
+## Data
 
+Replace the file `cli/data.py` in your repository with the file [sample/data.py](sample/data.py).
 
-LICENSE
+This new file has a little more data and uses a list of dictionaries to describe the data. Each dictionary has the following keys:
 
+- **state** *string*: The condition of the item (example: Brand new, old, cheap,...)
+- **category** *string*: The type of item (example: Laptop, Tablet, Headphones,...)
+- **warehouse** *integer*: The warehouse number where this item is located.
+- **date_of_stock** *date*: The date and time the item was stocked.
 
-https://github.com/AriMichel/Individual_Project_DCI_Pythonkurs/blob/main/LICENSE.txt
+The full name of the item will be a composition of `state` and `category`.
 
+## Description
 
+### Refactoring
 
+After replacing the data, you will have to edit the `cli/query.py` file and the first thing you will have to do is changing the first line from:
 
+`from data import warehouse1, warehouse2`
+
+To:
+
+`from data import stock`
+
+After this, the first task will be to adapt the query tool to work with the new data structure.
+
+> Notice that the full name of each item is now a composition of the keys `state` and `category`. To replicate the current behavior, the script must compare the user input with the combination of `state` and `category`.
+
+Once all the current features are working as expected with the new data, add all those changes to the remote repository (add them locally, commit them with a meaningful text and push them).
+
+After that, add the following features/changes.
+
+> **IMPORTANT**
+>
+> Do not forget to push all the changes to the remote repository again at the end of the exercise. Commit the changes with a meaningful description.
+
+### Changes on menu option 1 (list all items)
+
+When printing the list of items, and at the end of the whole list, print the total amount of items in stock on each warehouse:
+
+##### Sample output:
+
+```
+...
+- High quality Tablet
+
+Total items in warehouse 1: ???
+Total items in warehouse 2: ???
+
+Thank you for your visit, Wolfgang!
+```
+
+### Changes on menu option 2 (search and place order)
+
+Change the search of the items (operation number `2`) so that:
+
+1. It produces the same result when typing `cheap tablet` and `CHEAP TABLET` (the search should be **case insensitive**).
+1. If the search returns at least one result (in any warehouse), it prints a list of all the items showing the name of the warehouse and the number of days it has passed since they were stocked.
+2. It still prints the maximum availability only when the item is found in more than one warehouse.
+3. It still prints `Location: Not in stock` when the item is not found.
+
+##### Sample outputs:
+
+```
+...
+What is the name of the item? funny headphones
+Amount available: 5
+Location:
+- Warehouse 1 (in stock for 905 days)
+- Warehouse 1 (in stock for 33 days)
+- Warehouse 1 (in stock for 193 days)
+- Warehouse 2 (in stock for 957 days)
+- Warehouse 2 (in stock for 188 days)
+Maximum availability: 3 in Warehouse 1
+
+Would you like to order this item?(y/n) n
+...
+```
+```
+...
+What is the name of the item? bigger headphones
+Amount available: 0
+Location: Not in stock
+...
+```
+
+### New menu option (browse by category)
+
+Add a new menu option named `Browse by category`. Assign it the number 3 and move down the `Quit` option to number 4. When selected, this option should:
+
+1. Show a menu of available categories. This menu will have to include a numeric code (the number the user will type in to select a category), the name of the category and the amount of items available in that category (in any warehouse).
+
+    > There is no list of categories in the dataset, so you will have to iterate all the stock to identify the categories and count their items.
+    >
+    > You will also have to find a way to produce a numeric identifier for each category.
+    >
+    > The menu list should show single categories (each category should only appear once).
+
+1. Ask the user to type the category number of their choice.
+1. List all items in that category. This time, print them one after the other (not separated by warehouse) and include the name of the warehouse at the end of each line.
+
+    > Be aware that the code associated to each category will be an auto-generated numeric code and the items have a text value as category. You will have to think of a way to identify each number typed by the user to the correct category name to be able to filter the stock.
+
+##### Sample output:
+
+```
+What is your user name? Example
+
+Hello, Example!
+What would you like to do?
+1. List items by warehouse
+2. Search an item and place an order
+3. Browse by category
+4. Quit
+Type the number of the operation: 3
+
+1. Keyboard (34)
+2. Smartphone (39)
+3. Mouse (39)
+4. Laptop (40)
+5. Headphones (37)
+6. Monitor (40)
+7. Router (30)
+8. Tablet (41)
+Type the number of the category to browse: 4
+
+List of laptops available:
+Exceptional laptop, Warehouse 2
+...
+Second hand laptop, Warehouse 1
+
+Thank you for your visit, Example!
+```
