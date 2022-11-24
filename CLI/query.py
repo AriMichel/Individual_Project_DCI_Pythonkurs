@@ -8,8 +8,8 @@ for item in warehouse1:
 """
 from time import sleep
 
-# from data import stock
-from data import warehouse1, warehouse2
+from data import stock
+
 products= warehouse1 + warehouse2
 
 # YOUR CODE STARTS HERE
